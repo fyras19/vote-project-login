@@ -1,0 +1,72 @@
+version: "3.9"
+services:
+  # nginx:
+  #   build: ./nginx/
+  #   ports:
+  #     - 8000:80
+  #TODO: Networking and config
+
+  result:
+    build: ./result/
+    ports:
+      - 4000:4000
+    depends_on:
+      - db
+    networks:
+      - back-tier
+      - front-tier
+
+  # seed:
+  #   build: ./seed-data/
+  #TODO: Networking
+
+  vote:
+    build: ./vote/
+    ports:
+      - 5000:5000
+    depends_on:
+      - redis
+    networks:
+      - back-tier
+      - front-tier
+
+  worker:
+    build:
+      context: ./worker/
+      args:
+        - TARGETPLATFORM=linux/amd64"
+        - TARGETARCH=amd64
+        - BUILDPLATFORM=linux/amd64
+    depends_on:
+      - db
+      - redis
+    networks:
+      - back-tier
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    networks: 
+      - back-tier
+
+  db:
+    image: postgres:16-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    networks:
+      - back-tier
+
+networks:
+  front-tier:
+  back-tier:
+
+volumes:
+  db-data:
