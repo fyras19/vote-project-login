@@ -3,4 +3,4 @@ WORKDIR /app
 COPY . .
 RUN python make-data.py
 RUN apt-get update && apt-get install -y apache2-utils 
-CMD [ "./generate-votes.sh" ]
+CMD [ "bash","./generate-votes.sh" ]
