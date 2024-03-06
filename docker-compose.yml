@@ -51,7 +51,7 @@ services:
     build:
       context: ./worker/
       args:
-        - TARGETPLATFORM=linux/amd64"
+        - TARGETPLATFORM=linux/amd64
         - TARGETARCH=amd64
         - BUILDPLATFORM=linux/amd64
     depends_on:
@@ -65,7 +65,7 @@ services:
     restart: always
     ports:
       - "6379:6379"
-    networks: 
+    networks:
       - back-tier
 
   db:
