@@ -11,7 +11,7 @@ spec:
         app: worker
     spec:
       containers:
-        - image: europe-west9-docker.pkg.dev/login-k8s-416114/voting-images/worker
+        - image: europe-west9-docker.pkg.dev/login-k8s-416220/voting-images/worker
           name: worker
   selector:
     matchLabels:

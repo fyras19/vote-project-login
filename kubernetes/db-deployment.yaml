@@ -18,6 +18,7 @@ spec:
         name: db
         ports:
         - containerPort: 5432
+          protocol: TCP
         env:
         - name: POSTGRES_DB
           value: postgres
@@ -27,6 +28,7 @@ spec:
           value: postgres
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
+          subPath: data
           name: db-data
       volumes:
         - name: db-data

@@ -11,7 +11,7 @@ spec:
         app: vote
     spec:
       containers:
-        - image: europe-west9-docker.pkg.dev/login-k8s-416114/voting-images/vote
+        - image: europe-west9-docker.pkg.dev/login-k8s-416220/voting-images/vote
           name: vote
           ports:
             - containerPort: 5000
