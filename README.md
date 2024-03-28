@@ -8,7 +8,16 @@
 # How to run project
 
 Requirements:
+- A GCP project
+- Compute engine API and Kubernetes engine API enabled
+- A Service account with editor role
+- JSON key credentials of aformenetioned service account, place it at the root level
 - Docker
+- A Docker Artifact registry on gcp
+- Permission "Service account token creator" granted to compute engine default service account
+
+Recommended:
+- Create a "terraform.tfvars" file containing the values of the variables declared at the top of "providers.tf" (project id, json credentials filename, artifact registry address, etc)
 
 To run the project, execute this at the root directory:
 ```
