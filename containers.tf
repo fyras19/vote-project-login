@@ -91,7 +91,7 @@ resource "docker_container" "vote-2" {
 resource "docker_container" "seed" {
   name       = "seed"
   image      = docker_image.seed.name
-  depends_on = []
+  depends_on = [docker_container.nginx]
   networks_advanced {
     name = docker_network.front-tier.name
   }
@@ -114,12 +114,12 @@ resource "docker_container" "result" {
 }
 
 resource "docker_container" "nginx" {
-  name       = "nginx"
+  name       = "vote-loadbalancer"
   image      = docker_image.nginx.name
   depends_on = [docker_container.vote-1, docker_container.vote-2]
   ports {
-    internal = 8000
-    external = 8000
+    internal = 5000
+    external = 5000
   }
   networks_advanced {
     name = docker_network.front-tier.name
