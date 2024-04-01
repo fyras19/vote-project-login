@@ -26,7 +26,7 @@ services:
     image: europe-west9-docker.pkg.dev/login-k8s-416220/voting-images/seed
     build: ./seed-data/
     depends_on:
-      - nginx
+      - vote-loadbalancer
     networks:
       - front-tier
 

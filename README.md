@@ -1,11 +1,46 @@
 # Table of Content
 
-  * [How to run project](#how-to-run-project)
+  * [How to run Docker Compose part](#how-to-run-docker-compose-part)
+  * [How to run Kubernetes part](#how-to-run-kubernetes-part)
+  * [How to run Terraform part](#how-to-run-terraform-part)
   * [Docker project](#docker-project)
   * [Kubernetes project](#kubernetes-project)
   * [Terraform project](#terraform-project)
 
-# How to run project
+# How to run Docker Compose part
+You only need to clone the project and have Docker and Docker Compose installed.
+Run:
+```
+Docker compose up -d
+```
+Once it finishes building, you may access the vote and the result service on http://localhost:4000 and http://localhost:5000
+
+# How to run Kubernetes part
+Requirements:
+- A GCP project
+- Compute engine API and Kubernetes engine API enabled
+- gcloud cli installed
+- kubectl installed
+- a Kubernetes cluster with 3 worker nodes
+- A Docker Artifact registry
+
+Steps to run:
+- Copy the URL of your artifact registry and change the URLs of the images in the "docker-compose.yaml" file. Make sure you do not remove the image name at end, change only the URL of the artifact registry. Your URL should be something like ```europe-west9-docker.pkg.dev/your-gcp-project/voting-images```
+- Authenticate to the registry if you haven't alrady by running (change it to the corresponding part of your artifact registry) ```gcloud auth configure-docker europe-west9-docker.pkg.dev```
+- Change it also in the following files in the "kubernetes" directory:
+  * seed-job.yaml
+  * worker-deployment.yaml
+  * vote-deployment.yaml
+  * result-deployment.yaml
+- ```Docker compose build```
+- ```Docker compose push```
+- ```kubectl apply -f kubernetes/```
+
+If you struggle with uploading the images to an artifact registry, you may change the images to the ones already deployed, which you may find [here](#kubernetes-project) 
+
+To access the vote and result services, go to your GCP console > Kubernetes engine > Gateways, services and ingress > services and follow the corresponding URLs
+
+# How to run Terraform part
 
 Requirements:
 - A GCP project
@@ -17,16 +52,18 @@ Requirements:
 - Permission "Service account token creator" granted to compute engine default service account
 
 Recommended:
-- Create a "terraform.tfvars" file containing the values of the variables declared at the top of "providers.tf" (project id, json credentials filename, artifact registry address, etc)
+- Create a "terraform.tfvars" file containing the values of the variables declared at the top of "providers.tf" (project id, json credentials filename, artifact registry address, etc). You may use "terraform.tfvars.example" file as a starting point.
 
-To run the project, execute this at the root directory:
+To run the project, execute these following commands at the root directory:
 ```
-    terraform init
-    terraform plan
-    terraform apply
+terraform init
+terraform plan
+terraform apply
 ```
 
-Once it's finished, you'll get the two URLs of the vote and the result services as outputs.
+Once it's finished, you may access the vote service and the result service by:
+- Following the two corresponding URLs in the outputs of the "terraform apply" command for the services running on GCP
+- Go to http://localhost:4000 and http://localhost:5000 to access both services locally running locally
 
 # Docker project
 
