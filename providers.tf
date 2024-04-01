@@ -1,20 +1,24 @@
 variable "project_id" {
   description = "project id"
+  type = string
 }
 
 variable "region" {
   description = "region"
   default = "us-central1"
+  type = string
 }
 
 variable "zone" {
   description = "zone"
   default = "us-central1-c"
+  type = string
 }
 
 variable "docker_host" {
   description = "The Docker host address"
   default     = "unix:///var/run/docker.sock"
+  type = string
 }
 
 variable "target_service_account" {
