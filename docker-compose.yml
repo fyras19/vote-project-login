@@ -1,9 +1,10 @@
-version: "3.9"
+version: "3"
 services:
-  nginx:
+  vote-loadbalancer:
+    image: europe-west9-docker.pkg.dev/login-k8s-416220/voting-images/nginx
     build: ./nginx/
     ports:
-      - 8000:8000
+      - 5000:5000
     depends_on:
       - vote-1
       - vote-2
@@ -11,6 +12,7 @@ services:
       - front-tier
 
   result:
+    image: europe-west9-docker.pkg.dev/login-k8s-416220/voting-images/result
     build: ./result/
     ports:
       - 4000:4000
@@ -21,13 +23,15 @@ services:
       - front-tier
 
   seed:
+    image: europe-west9-docker.pkg.dev/login-k8s-416220/voting-images/seed
     build: ./seed-data/
     depends_on:
-      - nginx
+      - vote-loadbalancer
     networks:
       - front-tier
 
   vote-template: &vote-template
+    image: europe-west9-docker.pkg.dev/login-k8s-416220/voting-images/vote
     build: ./vote/
     ports:
       - 5000
@@ -48,6 +52,7 @@ services:
       - 5002:5000
 
   worker:
+    image: europe-west9-docker.pkg.dev/login-k8s-416220/voting-images/worker
     build:
       context: ./worker/
       args:

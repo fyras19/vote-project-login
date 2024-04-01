@@ -1,0 +1,8 @@
+POSTGRES_PASSWORD = "postgres"
+POSTGRES_USER     = "postgres"
+POSTGRES_DB       = "postgres"
+#docker_host = "/path/to/docker/host"
+#artifact_registry_url = "europe-west9-docker.pkg.dev/project_id/AR_name"
+#credentials_filename = "project_id-xxxxxx.json"
+#project_id = "project_id"
+#target_service_account = "xxxxxxx-compute@developer.gserviceaccount.com"
